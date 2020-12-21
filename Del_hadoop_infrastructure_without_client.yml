@@ -1,0 +1,46 @@
+- name: "Deleting Datanode"
+  hosts: datanode
+  vars:
+          dir: /hadoop_datanode
+
+  tasks:
+          - name: "stop hadoop"
+            command: "hadoop-daemon.sh stop datanode"
+            ignore_errors: yes
+          - name: "Uninstalling packages"
+            package:
+                    name: 
+                     - java
+                     - hadoop
+                    state: absent
+          - name: "Deleting Datanode Directory"
+            file:
+                    path: "{{ item }}"
+                    state: "absent"
+            loop:
+                    - "{{ dir }}"
+                    - "/etc/hadoop"
+
+- name: "Deleting Namenode"
+  hosts: namenode
+  vars:
+          dir: /hadoop_namenode
+
+  tasks:
+          - name: "stop hadoop"
+            command: "hadoop-daemon.sh stop namenode"
+            ignore_errors: yes
+          - name: "Uninstalling packages"
+            package:
+                    name: 
+                     - java
+                     - hadoop
+                    state: absent
+          - name: "Deleting Namenode Directory"
+            file:
+                    path: "{{ item }}"
+                    state: "absent"
+            loop:
+                    - "{{ dir }}"
+                    - "/etc/hadoop"
+
